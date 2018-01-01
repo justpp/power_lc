@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单列表</title>
+</head>
+<body>
+    <table width="680" border="1" align="center">
+        <tr>
+            <td>订单号</td>
+            <td>支付金额</td>
+            <td>添加时间</td>
+            <td>订单状态</td>
+            <td>支付状态</td>
+            <td>操作</td>
+        </tr>
+        {volist name='orderlist' id='v'}
+        <tr>
+            <td>{$v.ordersn}</td>
+            <td>{$v.total_amount}</td>
+            <td>{$v.addtime|date='Y-m-d H:i:s',###}</td>
+            <td>
+                {if condition="$v['status'] eq 0"}
+                已提交
+                {elseif condition="$v['status'] eq 1"/}
+                备货中
+                {elseif condition="$v['status'] eq 2"}
+                已发货
+                {elseif condition="$v['status'] eq 3"}
+                已完成
+                {/if}
+            </td>
+            <td>{if condition="$v['paystatus'] eq 1"}
+                <span style="color:goldenrod;">已支付</span>
+                {else/}
+                <a href='{:url("payment/pay",["orderid"=>$v["id"]])}' target="_blank">去付款</a>
+
+                {/if}
+              </td>
+            <td>
+                <a href="">详情</a>
+                <a href="删除"></a>
+            </td>
+        </tr>
+        {/volist}
+    </table>
+</body>
+</html>
